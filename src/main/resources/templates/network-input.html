@@ -1,0 +1,75 @@
+<!DOCTYPE html SYSTEM "http://www.thymeleaf.org/dtd/xhtml1-strict-thymeleaf-4.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Netzwerkrechner</title>
+    <style>
+        div {
+            margin-top: 10px;
+        }
+
+        div.button-div {
+            margin-top: 25px;
+        }
+
+         label {
+            display: inline-block;
+            width: 120px;
+         }
+    </style>
+</head>
+<body>
+    <h1>Dateneingabe</h1>
+    <p>Bitte eine IP und eine Subnetzmaske eingeben.</p>
+
+    <form method="get" action="/network">
+        <div>
+            <label for="ip">IP</label>
+            <input type="text" name="ip" id="ip" placeholder="z.B. 192.168.2.1" maxlength="15"/>
+        </div>
+
+        <div>
+            <!--
+            Text
+            -->
+            <label for="snm">Subnetzmaske</label>
+            <input type="text" name="snm" id="snm" placeholder="z.B. 255.255.192.0" maxlength="15"/>
+
+            <!--
+            Radio
+            <input type="radio" name="snm" id="snm1" value="255.255.255.0"><label for="snm1">255.255.255.0 (24)</label></input>
+            <input type="radio" name="snm" id="snm2" value="255.255.0.0"><label for="snm2">255.255.0.0 (16)</label></input>
+            <input type="radio" name="snm" id="snm3" value="255.0.0.0"><label for="snm3">255.0.0.0 (8)</label></input>
+            -->
+
+            <!--
+            Select
+            <label for="snm">Subnetzmaske</label>
+            <select id="snm" name="snm">
+                <option value="255.255.255.0">255.255.255.0 (24)</option>
+                <option value="255.255.0.0">255.255.0.0 (16)</option>
+                <option value="255.0.0.0">255.0.0.0 (8)</option>
+            </select>
+            -->
+
+            <!--
+            Checkboxen
+            <input type="checkbox" name="snm" id="snm1" value="255.255.255.0"><label for="snm1">255.255.255.0 (24)</label></input>
+            <input type="checkbox" name="snm" id="snm2" value="255.255.0.0"><label for="snm2">255.255.0.0 (16)</label></input>
+            <input type="checkbox" name="snm" id="snm3" value="255.0.0.0"><label for="snm3">255.0.0.0 (8)</label></input>
+            -->
+
+            <!--
+            Textarea
+            <label for="snm">Subnetzmaske</label>
+            <textarea name="snm" id="snm" placeholder="z.B. 255.255.192.0" rows="4" cols="200"></textarea>
+            -->
+        </div>
+        <div class="button-div">
+            <button type="submit">Abschicken</button>
+            <button type="reset">Zurücksetzen</button>
+        </div>
+    </form>
+</body>
+</html>

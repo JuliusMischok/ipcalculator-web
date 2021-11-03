@@ -1,0 +1,46 @@
+<!DOCTYPE html SYSTEM "http://www.thymeleaf.org/dtd/xhtml1-strict-thymeleaf-4.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Netzübersicht</title>
+</head>
+<body>
+    <h1>IP</h1>
+    <p th:text="${ip}"></p>
+    <h1>Subnetzmaske</h1>
+    <p th:text="${snm}"></p>
+    <h1>Berechnung der Netz-ID</h1>
+    <table>
+        <tbody>
+            <tr>
+                <td>IP</td>
+                <td th:text="${ip.toBinaryString()}"></td>
+            </tr>
+            <tr>
+                <td></td>
+                <td>&</td>
+            </tr>
+            <tr>
+                <td>SNM</td>
+                <td th:text="${snm.toBinaryString()}"></td>
+            </tr>
+            <tr>
+                <td></td>
+                <td>=</td>
+            </tr>
+            <tr>
+                <td>Netz-ID</td>
+                <td th:text="${netId.toBinaryString()}"></td>
+            </tr>
+        </tbody>
+    </table>
+
+    <h1>Netz-ID</h1>
+    <p th:text="${netId}"></p>
+
+    <h1>Broadcast IP</h1>
+    <p th:text="${broadcastIp}"></p>
+    <p><a href="input">Zur Eingabe</a></p>
+</body>
+</html>
