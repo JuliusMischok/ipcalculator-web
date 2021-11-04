@@ -2,23 +2,37 @@ package academy.mischok.ipcalculatorweb.web;
 
 import java.util.Objects;
 
+import javax.validation.Valid;
+
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.PostMapping;
 
 import academy.mischok.ipcalculatorweb.domain.IpAddress;
 import academy.mischok.ipcalculatorweb.domain.Subnetmask;
+import academy.mischok.ipcalculatorweb.web.forms.NetworkInputForm;
 
 @Controller
 public class NetworkController {
 
-    @GetMapping("/network")
-    public String getOverview(@RequestParam String ip, @RequestParam String snm, Model model) {
+    @PostMapping("/network")
+    public String getOverview(@Valid NetworkInputForm networkInputForm, BindingResult bindingResult, Model model) {
+
+        System.out.println("form: " + networkInputForm);
+
+        validate(networkInputForm, bindingResult);
+
+        System.out.println("bindingResult: " + bindingResult);
+
+        if (bindingResult.hasErrors()) {
+            return "network-input";
+        }
 
         try {
-            IpAddress ipParsed = new IpAddress(ip);
-            Subnetmask snmParsed = new Subnetmask(snm);
+            IpAddress ipParsed = new IpAddress(networkInputForm.getIp());
+            Subnetmask snmParsed = new Subnetmask(networkInputForm.getSnm());
             IpAddress netId = ipParsed.logicalAnd(snmParsed);
             IpAddress broadcastIp = calculateBroadcastIp(netId, snmParsed);
 
@@ -33,8 +47,38 @@ public class NetworkController {
         }
     }
 
+    private void validate(NetworkInputForm networkInputForm, BindingResult bindingResult) {
+        Objects.requireNonNull(networkInputForm);
+        Objects.requireNonNull(bindingResult);
+
+        if (!bindingResult.hasFieldErrors("ip")) {
+            try {
+                // check, if IP input is valid
+                new IpAddress(networkInputForm.getIp());
+            } catch (IllegalArgumentException e) {
+                bindingResult.rejectValue("ip", "invalid.ip", "IP Format ungültig");
+            }
+        }
+
+        if (!bindingResult.hasFieldErrors("snm")) {
+            try {
+                new Subnetmask(networkInputForm.getSnm());
+            } catch (IllegalArgumentException e) {
+                bindingResult.rejectValue("snm", "invalid.snm", "Ungültige Subnetzmaske");
+            }
+        }
+    }
+
     @GetMapping("/input")
-    public String getInput() {
+    public String getInput(Model model) {
+        NetworkInputForm networkInputForm = new NetworkInputForm();
+
+        /*
+        networkInputForm.setIp("192.168.2.1");
+        */
+
+        model.addAttribute("networkInputForm", networkInputForm);
+
         return "network-input";
     }
 
@@ -52,3 +96,4 @@ public class NetworkController {
         return new IpAddress(first, second, third, fourth);
     }
 }
+

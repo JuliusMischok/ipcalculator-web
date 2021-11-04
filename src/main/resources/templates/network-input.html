@@ -13,6 +13,18 @@
             margin-top: 25px;
         }
 
+        div.fielderror-container {
+            margin-top: 5px;
+            margin-bottom: 15px;
+        }
+
+        div.fielderror-detail {
+            margin-top: 0;
+            color: #660000;
+            font-style: italic;
+            font-size: 9pt;
+        }
+
          label {
             display: inline-block;
             width: 120px;
@@ -23,10 +35,22 @@
     <h1>Dateneingabe</h1>
     <p>Bitte eine IP und eine Subnetzmaske eingeben.</p>
 
-    <form method="get" action="/network">
+    <form method="post" action="/network" th:object="${networkInputForm}">
+
+        <div th:if="${#fields.hasGlobalErrors()}">
+            <div th:each="err : ${#fields.globalErrors()}">
+                <span th:text="${err}"></span>
+            </div>
+
+            Es sind Fehler aufgetreten!
+        </div>
+
         <div>
             <label for="ip">IP</label>
-            <input type="text" name="ip" id="ip" placeholder="z.B. 192.168.2.1" maxlength="15"/>
+            <input type="text" th:field="*{ip}" id="ip" placeholder="z.B. 192.168.2.1" maxlength="15"/>
+            <div class="fielderror-container" th:if="${#fields.hasErrors('ip')}">
+                <div class="fielderror-detail" th:each="err : ${#fields.errors('ip')}" th:text="${err}"></div>
+            </div>
         </div>
 
         <div>
@@ -34,7 +58,10 @@
             Text
             -->
             <label for="snm">Subnetzmaske</label>
-            <input type="text" name="snm" id="snm" placeholder="z.B. 255.255.192.0" maxlength="15"/>
+            <input type="text" th:field="*{snm}" id="snm" placeholder="z.B. 255.255.192.0" maxlength="15"/>
+            <div class="fielderror-container" th:if="${#fields.hasErrors('snm')}">
+                <div class="fielderror-detail" th:each="err : ${#fields.errors('snm')}" th:text="${err}"></div>
+            </div>
 
             <!--
             Radio
