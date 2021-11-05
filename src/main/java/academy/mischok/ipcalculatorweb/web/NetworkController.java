@@ -17,6 +17,11 @@ import academy.mischok.ipcalculatorweb.web.forms.NetworkInputForm;
 @Controller
 public class NetworkController {
 
+    @GetMapping("/")
+    public String index() {
+        return "redirect:/input";
+    }
+
     @PostMapping("/network")
     public String getOverview(@Valid NetworkInputForm networkInputForm, BindingResult bindingResult, Model model) {
 
