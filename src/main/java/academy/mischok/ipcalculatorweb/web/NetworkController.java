@@ -4,6 +4,7 @@ import java.util.Objects;
 
 import javax.validation.Valid;
 
+import org.springframework.http.MediaType;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
@@ -17,12 +18,12 @@ import academy.mischok.ipcalculatorweb.web.forms.NetworkInputForm;
 @Controller
 public class NetworkController {
 
-    @GetMapping("/")
+    @GetMapping(value = "/")
     public String index() {
         return "redirect:/input";
     }
 
-    @PostMapping("/network")
+    @PostMapping(value = "/network")
     public String getOverview(@Valid NetworkInputForm networkInputForm, BindingResult bindingResult, Model model) {
 
         System.out.println("form: " + networkInputForm);

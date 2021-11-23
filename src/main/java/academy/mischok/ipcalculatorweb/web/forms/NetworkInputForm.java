@@ -2,9 +2,12 @@ package academy.mischok.ipcalculatorweb.web.forms;
 
 import javax.validation.constraints.NotBlank;
 
+import org.hibernate.validator.constraints.Length;
+
 public class NetworkInputForm {
 
     @NotBlank
+    @Length(min = 7)
     private String ip;
 
     @NotBlank
